@@ -25,17 +25,22 @@ Router.get("/api/user",(req, res)=>{
                 TableName: tableName
             };
 
-	const scanResults = [];
-    let items;
-    /*do{
-        items = ddbClient.scan(params).promise();
-        items.Items.forEach((item) => scanResults.push(item));
-        params.ExclusiveStartKey = items.LastEvaluatedKey;
-    }while(typeof items.LastEvaluatedKey !== "undefined");
-    
-    console.log(scanResults);
-	*/
-	//scanResults.forEach( element => console.log(element))
+	var tableName = "msiversioningtest";
+
+            var params = {
+                TableName: tableName
+				
+            };
+
+            ddbClient.scan(params, function(err, data) {
+                if (err) {
+                    console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
+                } else {
+                    console.log(data);
+					data.forEach( element => console.log(element))
+                }
+            });
+
 
 	
 	
