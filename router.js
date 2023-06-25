@@ -51,7 +51,7 @@ Router.post("/api/addversion", (req, res)=>{
             TableName: tableName,
             Item: {
                 "versionNum": parseInt(versionName),
-                "createdBy": email,
+                "createdBy": parseInt(email),
                 "description": description,
 				"status":status
             }
