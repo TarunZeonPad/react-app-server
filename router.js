@@ -21,7 +21,10 @@ Router.get("/",(req, res)=>{
 Router.get("/api/user",(req, res)=>{
     
     const data=[{versionName:"1.0",email:"systemi@metricstream.com",description:"This is dummy",status:1}];
-	
+	var params = {
+                TableName: tableName
+            };
+
 	const scanResults = [];
     let items;
     do{
