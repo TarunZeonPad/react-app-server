@@ -20,7 +20,7 @@ Router.get("/",(req, res)=>{
 });
 Router.get("/api/user",(req, res)=>{
     
-    const data=[{versionName:"1.0",email:"systemi@metricstream.com",description:"This is dummy",status:1}];
+    const data=[{versionName:"1",email:"123456",description:"This is dummy",status:1}];
 	var params = {
                 TableName: tableName
             };
@@ -35,16 +35,16 @@ Router.get("/api/user",(req, res)=>{
             ddbClient.scan(params, function(err, data) {
                 if (err) {
                     console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
+					res.json(JSON.stringify(err, null, 2));
                 } else {
-                    console.log(data);
-					data.forEach( element => console.log(element))
+                    json.end(data);
                 }
             });
 
 
 	
 	
-    res.send(data);
+    //res.send(data);
 });
 
 Router.post("/api/addversion", (req, res)=>{
