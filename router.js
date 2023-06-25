@@ -20,7 +20,7 @@ Router.get("/",(req, res)=>{
 });
 Router.get("/api/user",(req, res)=>{
     
-    let data=[];
+    
 	var params = {
                 TableName: tableName
             };
@@ -37,16 +37,17 @@ Router.get("/api/user",(req, res)=>{
                     console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
 					res.json(JSON.stringify(err, null, 2));
                 } else {
+					let dataResponse=[];
 					console.log(data.Items);
 					var parsedJSON = data.Items;
 					for (var i=0;i<parsedJSON.length;i++) {
 						console.log(parsedJSON[i]);
 						let obj = {versionName:parsedJSON[i].versionNum,email:parsedJSON[i].createdBy,description:parsedJSON[i].description,status:parsedJSON[i].status};
 						console.log(obj);
-						data.push(obj);
+						dataResponse.push(obj);
 					}
                     //res.json(JSON.stringify(data));
-					res.send(data);
+					res.send(dataResponse);
                 }
             });
 
