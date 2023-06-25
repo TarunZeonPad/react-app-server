@@ -20,7 +20,7 @@ Router.get("/",(req, res)=>{
 });
 Router.get("/api/user",(req, res)=>{
     
-    const data=[{versionName:"1",email:"123456",description:"This is dummy",status:1}];
+    let data=[];
 	var params = {
                 TableName: tableName
             };
@@ -41,8 +41,12 @@ Router.get("/api/user",(req, res)=>{
 					var parsedJSON = data.Items;
 					for (var i=0;i<parsedJSON.length;i++) {
 						console.log(parsedJSON[i]);
+						let obj = {versionName:parsedJSON[i].versionNum,email:parsedJSON[i].createdBy,description:parsedJSON[i].description,status:parsedJSON[i].status};
+						console.log(obj);
+						data.push(obj);
 					}
-                    res.json(JSON.stringify(data));
+                    //res.json(JSON.stringify(data));
+					res.send(data);
                 }
             });
 
