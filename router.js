@@ -50,7 +50,7 @@ Router.post("/api/addversion", (req, res)=>{
 	var params = {
             TableName: tableName,
             Item: {
-                "versionNum": versionName,
+                "versionNum": parseInt(versionName),
                 "createdBy": email,
                 "description": description,
 				"status":status
@@ -63,6 +63,7 @@ Router.post("/api/addversion", (req, res)=>{
         ddbClient.put(params, function(err, data) {
             if (err) {
                console.error("Unable to write data: ", JSON.stringify(err, null, 2));
+			   res.status(500).json(JSON.stringify(err, null, 2));
             } else {
                res.status(200).json({success:"Version Record Inseted Successfully"});
             }
