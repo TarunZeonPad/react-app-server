@@ -27,15 +27,15 @@ Router.get("/api/user",(req, res)=>{
 
 	const scanResults = [];
     let items;
-    do{
+    /*do{
         items = ddbClient.scan(params).promise();
         items.Items.forEach((item) => scanResults.push(item));
         params.ExclusiveStartKey = items.LastEvaluatedKey;
     }while(typeof items.LastEvaluatedKey !== "undefined");
     
     console.log(scanResults);
-	
-	scanResults.forEach( element => console.log(element))
+	*/
+	//scanResults.forEach( element => console.log(element))
 
 	
 	
