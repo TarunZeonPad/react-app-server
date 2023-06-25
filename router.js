@@ -37,6 +37,11 @@ Router.get("/api/user",(req, res)=>{
                     console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
 					res.json(JSON.stringify(err, null, 2));
                 } else {
+					console.log(data.Items);
+					var parsedJSON = data.Items;
+					for (var i=0;i<parsedJSON.length;i++) {
+						console.log(parsedJSON[i]);
+					}
                     res.json(JSON.stringify(data));
                 }
             });
