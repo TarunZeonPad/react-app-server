@@ -46,12 +46,12 @@ Router.get("/api/user",(req, res)=>{
     
         // Initialize an array to store the retrieved documents
         
-
+        const dataResponse = [];
 collection.all().then(
   cursor => cursor.all()
 ).then(
   documents => documents.forEach(document => 
-    { const dataResponse = [];
+    { 
     let obj = {versionName:document.versionNum,email:document.createdBy,description:document.description,status:document.status};
     console.log(obj);
     dataResponse.push(obj);
