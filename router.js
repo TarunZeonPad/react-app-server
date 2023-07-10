@@ -14,14 +14,14 @@ const Router= express.Router();
 //var tableName = "msiversioningtest";
 
 
-const arangojs = require('msidb');
-const collectionName = 'msiversion';
+const arangojs = require('arangojs');
+const collectionName = 'msiVersionCollection';
 
 
 // Create a new ArangoDB connection
 const db = new arangojs.Database({
   url: 'http://localhost:8529',
-  databaseName: 'msiVersionCollection',
+  databaseName: 'msidb',
   auth: { username: 'root', password: 'welcome*123' }
 });
 
