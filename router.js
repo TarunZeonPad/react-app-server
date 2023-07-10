@@ -42,20 +42,27 @@ Router.get("/api/user",(req, res)=>{
         const collection = db.collection(collectionName);
     
         // Execute a query to retrieve all documents in the collection
-        const cursor = collection.all();
+        
     
         // Initialize an array to store the retrieved documents
         const dataResponse = [];
+
+collection.all().then(
+  cursor => cursor.all()
+).then(
+  documents => documents.forEach(doc => dataResponse.push({versionName:document.versionNum,email:document.createdBy,description:document.description,status:document.status})),
+  err => console.error('Failed to fetch:', err)
+);
     
         // Iterate over the cursor and push documents into the array
-        cursor.each((document) => {
+        /*cursor.each((document) => {
           let obj = {versionName:document.versionNum,email:document.createdBy,description:document.description,status:document.status};
 		 console.log(obj);
 		 dataResponse.push(obj);
         });
-    
+        */
         // Output the retrieved documents as a JSON array
-        console.log(JSON.stringify(dataResponse, null, 2));
+        //console.log(JSON.stringify(dataResponse, null, 2));
         res.send(dataResponse);
       } catch (error) {
         console.error('Error reading data:', error);
