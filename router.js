@@ -55,7 +55,7 @@ collection.all().then(
     let obj = {versionName:document.versionNum,email:document.createdBy,description:document.description,status:document.status};
     console.log(obj);
     dataResponse.push(obj);
-
+    res.send(dataResponse);
 }),
   err => console.error('Failed to fetch:', err)
 );
