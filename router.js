@@ -63,6 +63,7 @@ collection.all().then(
         */
         // Output the retrieved documents as a JSON array
         //console.log(JSON.stringify(dataResponse, null, 2));
+        console.log(dataResponse);
         res.send(dataResponse);
       } catch (error) {
         console.error('Error reading data:', error);
