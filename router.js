@@ -50,7 +50,7 @@ Router.get("/api/user",(req, res)=>{
 collection.all().then(
   cursor => cursor.all()
 ).then(
-  documents => documents.forEach(doc => dataResponse.push({versionName:document.versionNum,email:document.createdBy,description:document.description,status:document.status})),
+  documents => documents.forEach(document => dataResponse.push({versionName:document.versionNum,email:document.createdBy,description:document.description,status:document.status})),
   err => console.error('Failed to fetch:', err)
 );
     
