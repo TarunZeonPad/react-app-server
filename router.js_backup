@@ -1,29 +1,17 @@
 const express= require("express");
 const Router= express.Router();
-//const AmazonDaxClient = require('amazon-dax-client');
-//var AWS = require("aws-sdk");
+const AmazonDaxClient = require('amazon-dax-client');
+var AWS = require("aws-sdk");
 
-//var region = "eu-north-1";
+var region = "eu-north-1";
 
-/*AWS.config.update({
+AWS.config.update({
   region: region
-});*/
-
-//var ddbClient = new AWS.DynamoDB.DocumentClient() 
-
-//var tableName = "msiversioningtest";
-
-
-const arangojs = require('msidb');
-const collectionName = 'msiversion';
-
-
-// Create a new ArangoDB connection
-const db = new arangojs.Database({
-  url: 'http://localhost:8529',
-  databaseName: 'msiVersionCollection',
-  auth: { username: 'root', password: 'welcome*123' }
 });
+
+var ddbClient = new AWS.DynamoDB.DocumentClient() 
+
+var tableName = "msiversioningtest";
 
 //const dbconnected= require("./dbconnection");
 Router.get("/",(req, res)=>{
@@ -33,35 +21,13 @@ Router.get("/",(req, res)=>{
 Router.get("/api/user",(req, res)=>{
     
     
-	
+	var params = {
+                TableName: tableName
+            };
 
 	var tableName = "msiversioningtest";
 
-    try {
-        // Get a reference to the collection
-        const collection = db.collection(collectionName);
-    
-        // Execute a query to retrieve all documents in the collection
-        const cursor = collection.all();
-    
-        // Initialize an array to store the retrieved documents
-        const dataResponse = [];
-    
-        // Iterate over the cursor and push documents into the array
-        cursor.each((document) => {
-          let obj = {versionName:document.versionNum,email:document.createdBy,description:document.description,status:document.status};
-		 console.log(obj);
-		 dataResponse.push(obj);
-        });
-    
-        // Output the retrieved documents as a JSON array
-        console.log(JSON.stringify(dataResponse, null, 2));
-        res.send(dataResponse);
-      } catch (error) {
-        console.error('Error reading data:', error);
-      }
-
-           /* var params = {
+            var params = {
                 TableName: tableName
 				
             };
@@ -83,9 +49,9 @@ Router.get("/api/user",(req, res)=>{
                     //res.json(JSON.stringify(data));
 					res.send(dataResponse);
                 }
-            });*/
+            });
 
-           
+
 	
 	
     //res.send(data);
@@ -96,7 +62,7 @@ Router.post("/api/addversion", (req, res)=>{
     const email= req.body.email;
     const description= req.body.description;
     const status= req.body.status;
-	/*var params = {
+	var params = {
             TableName: tableName,
             Item: {
                 "versionNum": parseInt(versionName),
@@ -106,7 +72,9 @@ Router.post("/api/addversion", (req, res)=>{
             }
         };
 
-       
+        //
+        //put item
+
         ddbClient.put(params, function(err, data) {
             if (err) {
                console.error("Unable to write data: ", JSON.stringify(err, null, 2));
@@ -114,30 +82,7 @@ Router.post("/api/addversion", (req, res)=>{
             } else {
                res.status(200).json({success:"Version Record Inseted Successfully"});
             }
-        });*/
-        try {
-            // Get a reference to the collection
-            const collection = db.collection(collectionName);
-        
-            // Create a new document to insert
-            const document = {
-                versionNum: parseInt(versionName),
-                createdBy: parseInt(email),
-                description: description,
-				status:status
-            };
-        
-            // Insert the document into the collection
-            const result = collection.save(document);
-        
-            // Output the inserted document
-            console.log('Inserted document:');
-            console.log(result);
-            res.status(200).json({success:"Version Record Inseted Successfully"});
-          } catch (error) {
-            console.error('Error inserting data:', error);
-            res.status(500).json(JSON.stringify(error, null, 2));
-          }
+        });
     
 });
 Router.get("/api/edituser/:id", (req, res)=>{
