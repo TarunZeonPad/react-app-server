@@ -20,7 +20,7 @@ const collectionName = 'msiVersionCollection';
 
 // Create a new ArangoDB connection
 const db = new arangojs.Database({
-  url: 'tcp://172.31.34.233:8529',
+  url: 'http://172.31.34.233:8529',
   databaseName: 'msidb',
   auth: { username: 'root', password: 'welcome*123' }
 });
