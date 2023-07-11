@@ -33,7 +33,7 @@ Router.get("/",(req, res)=>{
 Router.get("/api/user",(req, res)=>{
     
     
-	
+	const dataResponse = [];
 
 	var tableName = "msiversioningtest";
 
@@ -46,7 +46,7 @@ Router.get("/api/user",(req, res)=>{
     
         // Initialize an array to store the retrieved documents
         
-        const dataResponse = [];
+        
 collection.all().then(
   cursor => cursor.all()
 ).then(
