@@ -32,11 +32,12 @@ Router.get("/",(req, res)=>{
 });
 
 
+
 function readData() {
     return new Promise((resolve, reject) => {
       // Get a reference to the collection
       const collection = db.collection(collectionName);
-  
+      const dataResponse = [];
 
       collection.all().then(
         cursor => cursor.all()
@@ -69,7 +70,7 @@ Router.get("/api/user",(req, res)=>{
   })
   .finally(() => {
     // Close the ArangoDB connection
-    db.close();
+    //db.close();
   });
         
 });
