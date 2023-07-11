@@ -30,81 +30,48 @@ Router.get("/",(req, res)=>{
     const data=[{name:"David Test",email:"john007@gmail.com"}];
     res.send(data);
 });
+
+
+function readData() {
+    return new Promise((resolve, reject) => {
+      // Get a reference to the collection
+      const collection = db.collection(collectionName);
+  
+
+      collection.all().then(
+        cursor => cursor.all()
+      ).then(
+        documents => documents.forEach(document => 
+          { 
+          let obj = {versionName:document.versionNum,email:document.createdBy,description:document.description,status:document.status};
+          console.log("Inside document");
+          console.log(obj);
+          dataResponse.push(obj);
+          //res.send(dataResponse);
+      }),
+        err => console.error('Failed to fetch:', err)
+      );
+      resolve(dataArray);
+    });
+  }
+
 Router.get("/api/user",(req, res)=>{
     
     
-	const dataResponse = [];
-
-	var tableName = "msiversioningtest";
-
-    try {
-        // Get a reference to the collection
-        const collection = db.collection(collectionName);
-    
-        // Execute a query to retrieve all documents in the collection
+	readData()
+  .then(dataArray => {
+    console.log('Retrieved data array:');
+    console.log(dataArray);
+    res.send(dataArray);
+  })
+  .catch(error => {
+    console.error('Error reading data:', error);
+  })
+  .finally(() => {
+    // Close the ArangoDB connection
+    db.close();
+  });
         
-    
-        // Initialize an array to store the retrieved documents
-        
-        
-collection.all().then(
-  cursor => cursor.all()
-).then(
-  documents => documents.forEach(document => 
-    { 
-    let obj = {versionName:document.versionNum,email:document.createdBy,description:document.description,status:document.status};
-    console.log("Inside document");
-    console.log(obj);
-    dataResponse.push(obj);
-    //res.send(dataResponse);
-}),
-  err => console.error('Failed to fetch:', err)
-);
-    
-        // Iterate over the cursor and push documents into the array
-        /*cursor.each((document) => {
-          let obj = {versionName:document.versionNum,email:document.createdBy,description:document.description,status:document.status};
-		 console.log(obj);
-		 dataResponse.push(obj);
-        });
-        */
-        // Output the retrieved documents as a JSON array
-        //console.log(JSON.stringify(dataResponse, null, 2));
-        
-      } catch (error) {
-        console.error('Error reading data:', error);
-      }
-
-           /* var params = {
-                TableName: tableName
-				
-            };
-
-            ddbClient.scan(params, function(err, data) {
-                if (err) {
-                    console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
-					res.json(JSON.stringify(err, null, 2));
-                } else {
-					let dataResponse=[];
-					console.log(data.Items);
-					var parsedJSON = data.Items;
-					for (var i=0;i<parsedJSON.length;i++) {
-						console.log(parsedJSON[i]);
-						let obj = {versionName:parsedJSON[i].versionNum,email:parsedJSON[i].createdBy,description:parsedJSON[i].description,status:parsedJSON[i].status};
-						console.log(obj);
-						dataResponse.push(obj);
-					}
-                    //res.json(JSON.stringify(data));
-					res.send(dataResponse);
-                }
-            });*/
-
-           
-	
-	
-    //res.send(data);
-    console.log(dataResponse);
-        res.send(dataResponse);
 });
 
 Router.post("/api/addversion", (req, res)=>{
