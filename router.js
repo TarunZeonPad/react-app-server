@@ -51,7 +51,7 @@ function readData() {
       }),
         err => console.error('Failed to fetch:', err)
       );
-      resolve(dataArray);
+      resolve(dataResponse);
     });
   }
 
@@ -59,10 +59,10 @@ Router.get("/api/user",(req, res)=>{
     
     
 	readData()
-  .then(dataArray => {
+  .then(dataResponse => {
     console.log('Retrieved data array:');
-    console.log(dataArray);
-    res.send(dataArray);
+    console.log(dataResponse);
+    res.send(dataResponse);
   })
   .catch(error => {
     console.error('Error reading data:', error);
