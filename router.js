@@ -70,8 +70,7 @@ collection.all().then(
         */
         // Output the retrieved documents as a JSON array
         //console.log(JSON.stringify(dataResponse, null, 2));
-        console.log(dataResponse);
-        res.send(dataResponse);
+        
       } catch (error) {
         console.error('Error reading data:', error);
       }
@@ -104,6 +103,8 @@ collection.all().then(
 	
 	
     //res.send(data);
+    console.log(dataResponse);
+        res.send(dataResponse);
 });
 
 Router.post("/api/addversion", (req, res)=>{
