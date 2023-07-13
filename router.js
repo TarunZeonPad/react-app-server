@@ -107,8 +107,8 @@ Router.post("/api/addversion", (req, res)=>{
         
             // Create a new document to insert
             const document = {
-                versionNum: parseInt(versionName),
-                createdBy: parseInt(email),
+                versionNum: versionName,
+                createdBy: email,
                 description: description,
 				status:status
             };
