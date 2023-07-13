@@ -39,7 +39,7 @@ function readData() {
       const collection = db.collection(collectionName);
       const dataResponse = [];
 
-      collection.all().then(
+      /*collection.all().then(
         cursor => cursor.all()
       ).then(
         documents => documents.forEach(document => 
@@ -48,10 +48,22 @@ function readData() {
           console.log("Inside document");
           console.log(obj);
           dataResponse.push(obj);
-          //res.send(dataResponse);
+      }),
+        err => console.error('Failed to fetch:', err)
+      );*/
+
+      collection.all().then(
+        documents => documents.forEach(document => 
+          { 
+          let obj = {versionName:document.versionNum,email:document.createdBy,description:document.description,status:document.status};
+          console.log("Inside document");
+          console.log(obj);
+          dataResponse.push(obj);
       }),
         err => console.error('Failed to fetch:', err)
       );
+
+
       resolve(dataResponse);
     });
   }
