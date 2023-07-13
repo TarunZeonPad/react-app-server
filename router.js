@@ -33,13 +33,13 @@ Router.get("/",(req, res)=>{
 
 
 
-function readData() {
-    return new Promise((resolve, reject) => {
+async function readData() {
+    return new Promise(async (resolve, reject) => {
       // Get a reference to the collection
       const collection = db.collection(collectionName);
       const dataResponse = [];
 
-      /*collection.all().then(
+      await collection.all().then(
         cursor => cursor.all()
       ).then(
         documents => documents.forEach(document => 
@@ -50,27 +50,9 @@ function readData() {
           dataResponse.push(obj);
       }),
         err => console.error('Failed to fetch:', err)
-      );*/
-
-      /*collection.all().then(
-        documents => documents.forEach(document => 
-          { 
-          let obj = {versionName:document.versionNum,email:document.createdBy,description:document.description,status:document.status};
-          console.log("Inside document");
-          console.log(obj);
-          dataResponse.push(obj);
-      }),
-        err => console.error('Failed to fetch:', err)
-      );*/
-
-      collection.document('firstDocument').then(
-        document => {let obj = {versionName:document.versionNum,email:document.createdBy,description:document.description,status:document.status};
-        console.log("Inside document");
-        console.log(obj);
-        dataResponse.push(obj);},
-        err => console.error('Failed to fetch document:', err)
       );
 
+     
 
       resolve(dataResponse);
     });
