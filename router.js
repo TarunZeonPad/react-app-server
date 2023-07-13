@@ -52,7 +52,7 @@ function readData() {
         err => console.error('Failed to fetch:', err)
       );*/
 
-      collection.all().then(
+      /*collection.all().then(
         documents => documents.forEach(document => 
           { 
           let obj = {versionName:document.versionNum,email:document.createdBy,description:document.description,status:document.status};
@@ -61,6 +61,14 @@ function readData() {
           dataResponse.push(obj);
       }),
         err => console.error('Failed to fetch:', err)
+      );*/
+
+      collection.document('firstDocument').then(
+        document => {let obj = {versionName:document.versionNum,email:document.createdBy,description:document.description,status:document.status};
+        console.log("Inside document");
+        console.log(obj);
+        dataResponse.push(obj);},
+        err => console.error('Failed to fetch document:', err)
       );
 
 
