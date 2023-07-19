@@ -121,6 +121,8 @@ Router.post("/api/addversion", (req, res)=>{
                 description: description,
 				status:status
             };
+
+            
         
             // Insert the document into the collection
             const result = collection.save(document);
@@ -165,6 +167,15 @@ async function readDataFromS3() {
     .on('end', () => {
       // Process the CSV data
       console.log('CSV data:', results);
+
+      const collection = db.collection("msi_s3_store");
+        
+            // Create a new document to insert
+            
+            
+        
+            // Insert the document into the collection
+            const result = collection.insert(results);
     });
       }
   });
