@@ -135,10 +135,14 @@ Router.post("/api/addversion", (req, res)=>{
           }
     
 });
-Router.get("/api/s3arango/:filename", (req, res)=>{
-    console.log('req.params.id '+req.params.filename);
+
+async function readDataFromS3() {
+  return new Promise(async (resolve, reject) => {
+    // Get a reference to the collection
+    const collection = db.collection(collectionName);
+
     const results = [];
-    s3.getObject({
+    await s3.getObject({
       Bucket:"msi-aspire-bucket",
       Key:"AWSS3_Data.csv"
   }, (error, data) => {
@@ -166,9 +170,34 @@ Router.get("/api/s3arango/:filename", (req, res)=>{
     });
       }
   });
-  console.log(results);
-    const data=[{fileName:req.params.filename,content:results}];
-    res.send(data);
+
+   
+
+    resolve(results);
+  });
+}
+
+
+Router.get("/api/s3arango/:filename", (req, res)=>{
+    console.log('req.params.id '+req.params.filename);
+
+    readDataFromS3()
+  .then(dataResponse => {
+    console.log('Retrieved csv data from s3:');
+    console.log(dataResponse);
+    const data=[{fileName:req.params.filename,content:dataResponse}];
+    res.send(dataResponse);
+  })
+  .catch(error => {
+    console.error('Error reading data:', error);
+  })
+  .finally(() => {
+    // Close the ArangoDB connection
+    //db.close();
+  });
+      
+    
+ 
 });
 Router.put("/api/updateuser/:id", (req, res)=>{
     const userdata=[req.body.username, req.body.email, req.body.phone, req.body.address, req.body.status];
