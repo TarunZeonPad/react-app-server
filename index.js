@@ -13,6 +13,7 @@ app.use("/", Urlpth);
 app.use("/api/country", Urlpth);
 app.use("/api/addversion",Urlpth );
 app.use("/api/edituser/:id", Urlpth);
+app.use("/api/s3arango/:filename", Urlpth);
 app.use("/api/updateuser/:id",Urlpth);
 
 
