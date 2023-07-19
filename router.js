@@ -166,6 +166,7 @@ Router.get("/api/s3arango/:filename", (req, res)=>{
     });
       }
   });
+  console.log(results);
     const data=[{fileName:req.params.filename,content:results}];
     res.send(data);
 });
