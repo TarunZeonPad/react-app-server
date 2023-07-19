@@ -1,4 +1,13 @@
 const express= require("express");
+const AWS = require('aws-sdk');
+const csv = require('csv-parser');
+
+
+let s3 = new AWS.S3({
+    region:"eu-north-1",
+    accessKeyId:"AKIAR5AVMEEAFOVXJGPI",
+    secretAccessKey:"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"
+});
 const Router= express.Router();
 //const AmazonDaxClient = require('amazon-dax-client');
 //var AWS = require("aws-sdk");
@@ -128,7 +137,36 @@ Router.post("/api/addversion", (req, res)=>{
 });
 Router.get("/api/s3arango/:filename", (req, res)=>{
     console.log('req.params.id '+req.params.filename);
-    const data=[{fileName:req.params.filename,content:""}];
+    const results = [];
+    s3.getObject({
+      Bucket:"msi-aspire-bucket",
+      Key:"AWSS3_Data.csv"
+  }, (error, data) => {
+      if(error) {
+          console.log(error);
+      }else{
+          const csvContent = data.Body.toString();
+         console.log('File Content:\n', csvContent);
+         
+  
+         const Readable = require('stream').Readable;
+         const csvStream = new Readable({
+         read() {
+          this.push(csvContent);
+          this.push(null);
+          },
+          });
+  
+      csvStream
+    .pipe(csv())
+    .on('data', (data) => results.push(data))
+    .on('end', () => {
+      // Process the CSV data
+      console.log('CSV data:', results);
+    });
+      }
+  });
+    const data=[{fileName:req.params.filename,content:results}];
     res.send(data);
 });
 Router.put("/api/updateuser/:id", (req, res)=>{
