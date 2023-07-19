@@ -175,7 +175,7 @@ async function readDataFromS3() {
             
         
             // Insert the document into the collection
-            const result = collection.insert(results);
+            const result = collection.save(results);
     });
       }
   });
