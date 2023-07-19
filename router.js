@@ -139,8 +139,6 @@ Router.post("/api/addversion", (req, res)=>{
 async function readDataFromS3() {
   return new Promise(async (resolve, reject) => {
     // Get a reference to the collection
-    const collection = db.collection(collectionName);
-
     const results = [];
     await s3.getObject({
       Bucket:"msi-aspire-bucket",
@@ -155,7 +153,7 @@ async function readDataFromS3() {
   
          const Readable = require('stream').Readable;
          const csvStream = new Readable({
-         read() {
+          async read() {
           this.push(csvContent);
           this.push(null);
           },
