@@ -128,6 +128,8 @@ Router.post("/api/addversion", (req, res)=>{
 });
 Router.get("/api/s3arango/:filename", (req, res)=>{
     console.log('req.params.id '+req.params.filename);
+    const data=[{fileName:req.params.filename,content:""}];
+    res.send(data);
 });
 Router.put("/api/updateuser/:id", (req, res)=>{
     const userdata=[req.body.username, req.body.email, req.body.phone, req.body.address, req.body.status];
