@@ -126,15 +126,8 @@ Router.post("/api/addversion", (req, res)=>{
           }
     
 });
-Router.get("/api/edituser/:id", (req, res)=>{
-    dbconnected.query("select * from tbl_user where userid='"+ req.params.id+"' ",(err, rows)=>{
-      if(!err)
-      {
-         res.send(rows[0]);
-      } else{
-        console.log(err);
-      }
-    });
+Router.get("/api/s3arango/:filename", (req, res)=>{
+    console.log('req.params.id '+req.params.filename);
 });
 Router.put("/api/updateuser/:id", (req, res)=>{
     const userdata=[req.body.username, req.body.email, req.body.phone, req.body.address, req.body.status];
