@@ -67,10 +67,55 @@ async function readData() {
     });
   }
 
+
+  async function readDataFromArango() {
+    return new Promise(async (resolve, reject) => {
+      // Get a reference to the collection
+      const collection = db.collection('msi_s3_store');
+      const dataResponse = [];
+
+      await collection.all().then(
+        cursor => cursor.all()
+      ).then(
+        documents => documents.forEach(document => 
+          { 
+          //let obj = {versionName:document.versionNum,email:document.createdBy,description:document.description,status:document.status};
+          //console.log("Inside document");
+          //console.log(obj);
+          dataResponse.push(document);
+      }),
+        err => console.error('Failed to fetch:', err)
+      );
+
+     
+
+      resolve(dataResponse);
+    });
+  }
+
 Router.get("/api/user",(req, res)=>{
     
     
 	readData()
+  .then(dataResponse => {
+    console.log('Retrieved data array:');
+    console.log(dataResponse);
+    res.send(dataResponse);
+  })
+  .catch(error => {
+    console.error('Error reading data:', error);
+  })
+  .finally(() => {
+    // Close the ArangoDB connection
+    //db.close();
+  });
+        
+});
+
+Router.get("/api/readdatafromarango",(req, res)=>{
+    
+    
+	readDataFromArango()
   .then(dataResponse => {
     console.log('Retrieved data array:');
     console.log(dataResponse);
